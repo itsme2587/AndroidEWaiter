@@ -16,25 +16,27 @@ import java.util.ArrayList;
  * Created by Aman on 04-04-2018.
  */
 
-public class MenusAdapter extends RecyclerView.Adapter<MenusAdapter.MenusViewHolder> {
+public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenusViewHolder> {
 
-    ArrayList<MenuCategory> menuCategories = new ArrayList<>();
-    Context c;
+    private ArrayList<MenuCategory> menuCategories = new ArrayList<>();
+    private Context c;
+    private String tableNumber;
 
-    public MenusAdapter(Context c, ArrayList<MenuCategory> menuCategories) {
+    private MenuAdapter(Context c, ArrayList<MenuCategory> menuCategories,String tableNumber) {
         this.menuCategories = menuCategories;
         this.c = c;
+        this.tableNumber = tableNumber;
     }
 
     @Override
-    public MenusAdapter.MenusViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MenuAdapter.MenusViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.menu_view_individual,parent,false);
-        return new MenusAdapter.MenusViewHolder(view);
+        return new MenuAdapter.MenusViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(MenusAdapter.MenusViewHolder holder, int position) {
+    public void onBindViewHolder(MenuAdapter.MenusViewHolder holder, int position) {
         final MenuCategory mc = menuCategories.get(position);
         holder.categoryImage.setImageResource(mc.getCategoryImage());
         holder.categoryName.setText(mc.getCategoryName());
@@ -46,6 +48,7 @@ public class MenusAdapter extends RecyclerView.Adapter<MenusAdapter.MenusViewHol
                     Class<?> classType =Class.forName("com.ewaiter.android.e_waiter." + className);
                     Intent intent = new Intent(c,classType);
                     intent.putExtra("categoryName", mc.getCategoryName());
+                    intent.putExtra("tableNumber",tableNumber);
                     c.startActivity(intent);
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
