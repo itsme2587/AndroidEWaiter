@@ -20,7 +20,7 @@
             android:name=".MenuCategorySelectActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity android:name=".AddItem"
-            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+            android:label="Add Item"/>
         <activity android:name=".Chinese"
             android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity android:name=".Starters"

@@ -54,6 +54,8 @@ public final class MenuItemsContract {
 
         public final static String COLUMN_ITEM_NAME = "name";
 
+        public final static String COLUMN_ITEM_QUANTITY = "quantity";
+
         public final static String COLUMN_ITEM_CATEGORY = "category";
 
         public final static String COLUMN_ITEM_PRICE= "price";

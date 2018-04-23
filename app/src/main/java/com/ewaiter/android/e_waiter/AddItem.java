@@ -1,6 +1,7 @@
 package com.ewaiter.android.e_waiter;
 
 import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +17,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 import com.ewaiter.android.e_waiter.data.MenuItemsContract.MenuItemsEntry;
+import com.ewaiter.android.e_waiter.data.MenuItemsDbHelper;
 
 
 public class AddItem extends AppCompatActivity {
@@ -116,6 +118,9 @@ public class AddItem extends AppCompatActivity {
         String priceString = mPriceEditText.getText().toString().trim();
         int price = Integer.parseInt(priceString);
 
+        MenuItemsDbHelper mDbHelper = new MenuItemsDbHelper(this);
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
         // Create a ContentValues object where column names are the keys,
         // and pet attributes from the editor are the values.
         ContentValues values = new ContentValues();
@@ -123,18 +128,16 @@ public class AddItem extends AppCompatActivity {
         values.put(MenuItemsEntry.COLUMN_ITEM_PRICE, price);
         values.put(MenuItemsEntry.COLUMN_ITEM_CATEGORY, mCategory);
 
-        // Insert a new pet into the provider, returning the content URI for the new pet.
-        Uri newUri = getContentResolver().insert(MenuItemsEntry.CONTENT_URI, values);
-        // Show a toast message depending on whether or not the insertion was successful
-        if (newUri != null) {
-            // If the new content URI is null, then there was an error with insertion.
-            Toast.makeText(this, getString(R.string.editor_insert_item_failed),
-                    Toast.LENGTH_SHORT).show();
-        } else {
-            // Otherwise, the insertion was successful and we can display a toast.
-            Toast.makeText(this, getString(R.string.editor_insert_pet_successful),
-                    Toast.LENGTH_SHORT).show();
+        long newRowId = db.insert(MenuItemsEntry.TABLE_NAME,null,values);
+
+        if(newRowId == -1) {
+            Toast.makeText(this,"Error with saving item",Toast.LENGTH_SHORT).show();
         }
+        else {
+            Toast.makeText(this,"Item saved with row id: " + newRowId,Toast.LENGTH_SHORT).show();
+        }
+
+
 
     }
 }
