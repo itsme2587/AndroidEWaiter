@@ -22,7 +22,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenusViewHolde
     private Context c;
     private String tableNumber;
 
-    MenuAdapter(Context c, ArrayList<MenuCategory> menuCategories, String tableNumber) {
+    public MenuAdapter(Context c, ArrayList<MenuCategory> menuCategories, String tableNumber) {
         this.menuCategories = menuCategories;
         this.c = c;
         this.tableNumber = tableNumber;
