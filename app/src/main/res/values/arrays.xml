@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <!-- These are the options displayed in the food drop-down Spinner -->
+    <string-array name="array_food_options">
+        <item>@string/food_starters</item>
+        <item>@string/food_beverages</item>
+        <item>@string/food_chinese</item>
+        <item>@string/food_south_indian</item>
+        <item>@string/food_main_course</item>
+        <item>@string/food_breads</item>
+        <item>@string/food_salads</item>
+        <item>@string/food_desserts</item>
+    </string-array>
+</resources>
