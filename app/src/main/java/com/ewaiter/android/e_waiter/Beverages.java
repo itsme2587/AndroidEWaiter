@@ -31,13 +31,11 @@ public class Beverages extends AppCompatActivity {
     }
 
     public void displayitems() {
-        MenuItemsDbHelper mDbHelper = new MenuItemsDbHelper(this);
-        SQLiteDatabase db = mDbHelper.getReadableDatabase();   //open or create database
         String[] projection = {MenuItemsEntry.COLUMN_ITEM_NAME,MenuItemsEntry.COLUMN_ITEM_PRICE };
         String selection = MenuItemsEntry.COLUMN_ITEM_CATEGORY + "=?";
         String[] selectionArgs = new String[] {"Beverages"};
 
-        Cursor cursor = db.query(MenuItemsEntry.TABLE_NAME,projection,selection,selectionArgs,null,null,null);
+        Cursor cursor = getContentResolver().query(MenuItemsEntry.CONTENT_URI,projection,selection,selectionArgs,null,null);
         try {
             TextView tableNumber = findViewById(R.id.TableNumberTv);
             tableNumber.setText("Number of rows in menu_items table: " + cursor.getCount());

@@ -27,14 +27,14 @@ public final class MenuItemsContract {
      */
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
-    public static final String PATH_MENU_ITEMS = "food";
+    public static final String PATH_MENU_ITEMS = "menu_items";
 
     public static final class MenuItemsEntry implements BaseColumns {
 
         /**
          * The content URI to access the pet data in the provider
          */
-        public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_MENU_ITEMS);
+        public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI,PATH_MENU_ITEMS);
 
         /**
          * The MIME type of the {@link #CONTENT_URI} for a list of menu items.

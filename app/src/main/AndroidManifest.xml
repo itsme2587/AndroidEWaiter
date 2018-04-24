@@ -37,6 +37,10 @@
             android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity android:name=".Desserts"
             android:theme="@style/Theme.AppCompat.NoActionBar"/>
+        <provider
+            android:authorities="com.ewaiter.android.e_waiter"
+            android:name=".data.MenuItemProvider"
+            android:exported="false" />
     </application>
 
 </manifest>

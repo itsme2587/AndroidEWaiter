@@ -19,6 +19,8 @@ import android.widget.Toast;
 import com.ewaiter.android.e_waiter.data.MenuItemsContract.MenuItemsEntry;
 import com.ewaiter.android.e_waiter.data.MenuItemsDbHelper;
 
+import java.net.URI;
+
 
 public class AddItem extends AppCompatActivity {
 
@@ -118,9 +120,6 @@ public class AddItem extends AppCompatActivity {
         String priceString = mPriceEditText.getText().toString().trim();
         int price = Integer.parseInt(priceString);
 
-        MenuItemsDbHelper mDbHelper = new MenuItemsDbHelper(this);
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
-
         // Create a ContentValues object where column names are the keys,
         // and pet attributes from the editor are the values.
         ContentValues values = new ContentValues();
@@ -128,13 +127,13 @@ public class AddItem extends AppCompatActivity {
         values.put(MenuItemsEntry.COLUMN_ITEM_PRICE, price);
         values.put(MenuItemsEntry.COLUMN_ITEM_CATEGORY, mCategory);
 
-        long newRowId = db.insert(MenuItemsEntry.TABLE_NAME,null,values);
+        Uri newUri = getContentResolver().insert(MenuItemsEntry.CONTENT_URI,values);
 
-        if(newRowId == -1) {
+        if(newUri == null) {
             Toast.makeText(this,"Error with saving item",Toast.LENGTH_SHORT).show();
         }
         else {
-            Toast.makeText(this,"Item saved with row id: " + newRowId,Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Item saved",Toast.LENGTH_SHORT).show();
         }
 
 
