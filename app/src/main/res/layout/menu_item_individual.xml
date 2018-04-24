@@ -7,24 +7,24 @@
     android:layout_height="wrap_content">
 
     <Button
-        android:id="@+id/addBtn"
+        android:id="@+id/subBtn"
         android:layout_width="37dp"
         android:layout_height="37dp"
         android:layout_marginTop="8dp"
         android:gravity="center"
-        android:text="+"
+        android:text="-"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/quantityTv"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/subBtn"
+        android:id="@+id/addBtn"
         android:layout_width="37dp"
         android:layout_height="37dp"
         android:textStyle="bold"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
-        android:text="-"
+        android:text="+"
         android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -37,7 +37,7 @@
         android:gravity="center"
         android:layout_marginTop="8dp"
         android:textColor="@color/colorAccent"
-        app:layout_constraintEnd_toStartOf="@+id/subBtn"
+        app:layout_constraintEnd_toStartOf="@+id/addBtn"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="85" />
 

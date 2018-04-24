@@ -41,12 +41,10 @@ public class Beverages extends AppCompatActivity implements LoaderManager.Loader
         recyclerView.setAdapter(mAdapter);
 
         getLoaderManager().initLoader(BEVERAGES_LOADER,null,this);
-
-
     }
 
     private Cursor getItems() {
-        String[] projection = {MenuItemsEntry.COLUMN_ITEM_NAME,MenuItemsEntry.COLUMN_ITEM_QUANTITY };
+        String[] projection = {MenuItemsEntry.COLUMN_ITEM_NAME,MenuItemsEntry.COLUMN_ITEM_QUANTITY,MenuItemsEntry._ID};
         String selection = MenuItemsEntry.COLUMN_ITEM_CATEGORY + "=?";
         String[] selectionArgs = new String[] {"Beverages"};
 
@@ -56,7 +54,7 @@ public class Beverages extends AppCompatActivity implements LoaderManager.Loader
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        String[] projection = {MenuItemsEntry.COLUMN_ITEM_NAME,MenuItemsEntry.COLUMN_ITEM_QUANTITY };
+        String[] projection = {MenuItemsEntry.COLUMN_ITEM_NAME,MenuItemsEntry.COLUMN_ITEM_QUANTITY, MenuItemsContract.MenuItemsEntry._ID };
         String selection = MenuItemsEntry.COLUMN_ITEM_CATEGORY + "=?";
         String[] selectionArgs = new String[] {"Beverages"};
         return new CursorLoader(this,MenuItemsEntry.CONTENT_URI,projection,selection,selectionArgs,null);

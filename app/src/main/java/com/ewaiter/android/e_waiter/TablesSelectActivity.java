@@ -14,7 +14,14 @@ import java.util.ArrayList;
 public class TablesSelectActivity extends AppCompatActivity {
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        TablesAdapter.flag = true;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.table_select_activity);
 

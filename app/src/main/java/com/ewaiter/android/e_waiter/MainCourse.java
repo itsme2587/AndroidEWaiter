@@ -42,7 +42,7 @@ public class MainCourse extends AppCompatActivity implements LoaderManager.Loade
     }
 
     private Cursor getItems() {
-        String[] projection = {MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_NAME, MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_QUANTITY };
+        String[] projection = {MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_NAME, MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_QUANTITY, MenuItemsContract.MenuItemsEntry._ID };
         String selection = MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_CATEGORY + "=?";
         String[] selectionArgs = new String[] {"Main Course"};
 
@@ -52,7 +52,7 @@ public class MainCourse extends AppCompatActivity implements LoaderManager.Loade
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        String[] projection = {MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_NAME, MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_QUANTITY };
+        String[] projection = {MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_NAME, MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_QUANTITY, MenuItemsContract.MenuItemsEntry._ID };
         String selection = MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_CATEGORY + "=?";
         String[] selectionArgs = new String[] {"Main Course"};
         return new CursorLoader(this, MenuItemsContract.MenuItemsEntry.CONTENT_URI,projection,selection,selectionArgs,null);

@@ -22,6 +22,9 @@ public class SouthIndian extends AppCompatActivity implements LoaderManager.Load
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_south_indian);
 
+
+
+
         Bundle b = getIntent().getExtras();
         String categoryNameIntent = b.getString("categoryName");
         String tableNumberIntent = b.getString("tableNumber");
@@ -38,11 +41,10 @@ public class SouthIndian extends AppCompatActivity implements LoaderManager.Load
         recyclerView.setAdapter(mAdapter);
 
         getLoaderManager().initLoader(SOUTHINDIAN_LOADER,null,this);
-
     }
 
     private Cursor getItems() {
-        String[] projection = {MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_NAME, MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_QUANTITY };
+        String[] projection = {MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_NAME, MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_QUANTITY, MenuItemsContract.MenuItemsEntry._ID };
         String selection = MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_CATEGORY + "=?";
         String[] selectionArgs = new String[] {"South Indian"};
 
@@ -52,7 +54,7 @@ public class SouthIndian extends AppCompatActivity implements LoaderManager.Load
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        String[] projection = {MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_NAME, MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_QUANTITY };
+        String[] projection = {MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_NAME, MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_QUANTITY, MenuItemsContract.MenuItemsEntry._ID };
         String selection = MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_CATEGORY + "=?";
         String[] selectionArgs = new String[] {"South Indian"};
         return new CursorLoader(this, MenuItemsContract.MenuItemsEntry.CONTENT_URI,projection,selection,selectionArgs,null);
