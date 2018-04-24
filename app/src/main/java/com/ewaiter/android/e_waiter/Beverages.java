@@ -27,7 +27,6 @@ public class Beverages extends AppCompatActivity {
         TextView tableNumber = findViewById(R.id.TableNumberTv);
         tableNumber.setText(tableNumberIntent);
         displayitems();
-
     }
 
     public void displayitems() {
