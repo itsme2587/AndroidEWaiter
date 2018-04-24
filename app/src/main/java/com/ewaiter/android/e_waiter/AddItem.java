@@ -71,7 +71,7 @@ public class AddItem extends AppCompatActivity {
                     } else if (selection.equals(getString(R.string.food_south_indian))) {
                         mCategory = "South Indian";
                     } else if (selection.equals(getString(R.string.food_starters))) {
-                        mCategory = "Starter";
+                        mCategory = "Starters";
                     } else if (selection.equals(getString(R.string.food_chinese))) {
                         mCategory = "Chinese";
                     }

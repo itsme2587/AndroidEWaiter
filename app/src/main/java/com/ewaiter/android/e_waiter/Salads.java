@@ -1,8 +1,13 @@
 package com.ewaiter.android.e_waiter;
 
+import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
+
+import com.ewaiter.android.e_waiter.data.MenuItemsContract;
 
 public class Salads extends AppCompatActivity {
 
@@ -20,5 +25,20 @@ public class Salads extends AppCompatActivity {
 
         TextView tableNumber = findViewById(R.id.TableNumberTv);
         tableNumber.setText(tableNumberIntent);
+
+        RecyclerView recyclerView = findViewById(R.id.recycler_view_menu_category);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        MenuItemsCursorAdapter mAdapter = new MenuItemsCursorAdapter(this,getItems());
+        recyclerView.setAdapter(mAdapter);
+
+    }
+
+    private Cursor getItems() {
+        String[] projection = {MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_NAME, MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_QUANTITY };
+        String selection = MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_CATEGORY + "=?";
+        String[] selectionArgs = new String[] {"Salads"};
+
+        Cursor cursor = getContentResolver().query(MenuItemsContract.MenuItemsEntry.CONTENT_URI,projection,selection,selectionArgs,null,null);
+        return cursor;
     }
 }
