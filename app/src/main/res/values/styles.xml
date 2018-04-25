@@ -36,9 +36,9 @@
         <item name="android:textAppearance">?android:textAppearanceSmall</item>
     </style>
 
-    <style name="AppTheme.Launcher">
-        <item name="android:windowBackground">@drawable/launch_screen</item>
-        <item name ="colorPrimaryDark">@android:color/white</item>
+    <style name="AppTheme.Launcher" parent="Theme.AppCompat">
+        <item name="android:windowBackground">@drawable/splash</item>
+        <item name="colorPrimaryDark">#4a504c</item>
     </style>
 
 

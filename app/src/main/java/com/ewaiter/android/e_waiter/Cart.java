@@ -43,13 +43,15 @@ public class Cart extends AppCompatActivity implements LoaderManager.LoaderCallb
 
         MenuItemsDbHelper dbHelper = new MenuItemsDbHelper(this);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT SUM(" + MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_PRICE + "*" + MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_QUANTITY + ") as Total FROM " + MenuItemsContract.MenuItemsEntry.TABLE_NAME, null);
-        if (cursor.moveToFirst()) {
-            int total = cursor.getInt(cursor.getColumnIndex("Total"));
+        Cursor cursorSum = db.rawQuery("SELECT SUM(" + MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_PRICE + "*" + MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_QUANTITY + ") as Total FROM " + MenuItemsContract.MenuItemsEntry.TABLE_NAME, null);
+        if (cursorSum.moveToFirst()) {
+            int total = cursorSum.getInt(cursorSum.getColumnIndex("Total"));
             totalSum.setText(String.valueOf(total));
         }
 
-        while (getItems().moveToNext()) {
+        Cursor cursor = getItems();
+
+        while (cursor.moveToNext()) {
             String name = cursor.getString(cursor.getColumnIndex(MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_NAME));
             String category = cursor.getString(cursor.getColumnIndex(MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_CATEGORY));
             int quantity = cursor.getInt(cursor.getColumnIndex(MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_QUANTITY));
