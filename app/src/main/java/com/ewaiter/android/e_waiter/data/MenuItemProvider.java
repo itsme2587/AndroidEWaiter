@@ -52,6 +52,8 @@ public class MenuItemProvider extends ContentProvider {
             default:
                 throw new IllegalArgumentException("Cannot query unknown URI " + uri);
         }
+        //cursor.setNotificationUri(getContext().getContentResolver(),uri);
+        //if the data in the uri changes this updates the cursor.
         return cursor;
     }
 
@@ -93,6 +95,9 @@ public class MenuItemProvider extends ContentProvider {
                     Log.e(MenuItemProvider.class.getSimpleName(),"Failed to Insert row for uri " + uri);
                     return null;
                 }
+                //notify all listener that the data has changed for the pet content uri.
+                //query wale urinotificationlistener ko bta dega ki data change hua h.
+                //getContext().getContentResolver().notifyChange(uri,null);
                 return ContentUris.withAppendedId(uri,id);
             default:
                 throw new IllegalArgumentException("Cannot insert unknown URI " + uri);
@@ -105,10 +110,16 @@ public class MenuItemProvider extends ContentProvider {
         int match = sUriMatcher.match(uri);
         switch (match) {
             case MENUITEMS:
+                //notify all listener that the data has changed for the pet content uri.
+                //query wale urinotificationlistener ko bta dega ki data change hua h.
+             //   getContext().getContentResolver().notifyChange(uri,null);
                 return database.delete(MenuItemsContract.MenuItemsEntry.TABLE_NAME,selection,selectionArgs);
             case MENUITEMS_ID:
                 selection = MenuItemsContract.MenuItemsEntry._ID + "=?";
                 selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
+                //notify all listener that the data has changed for the pet content uri.
+                //query wale urinotificationlistener ko bta dega ki data change hua h.
+               // getContext().getContentResolver().notifyChange(uri,null);
                 return database.delete(MenuItemsContract.MenuItemsEntry.TABLE_NAME,selection,selectionArgs);
             default:
                 throw new IllegalArgumentException("Cannot delete unknown URI " + uri);
@@ -117,26 +128,28 @@ public class MenuItemProvider extends ContentProvider {
 
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
-        if(values.size() == 0) {
-            return 0;
-        }
-        String name = values.getAsString(MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_NAME);
-        int price = values.getAsInteger(MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_PRICE);
-        if(name == null) {
-            throw new IllegalArgumentException("Menu Item Requires a Name");
-        }
-        if(price < 0 ) {
-            throw new IllegalArgumentException("Price cannot be negetive");
-        }
+//        if(values.size() == 0) {
+//            return 0;
+//        }
+//        String name = values.getAsString(MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_NAME);
+//        int price = values.getAsInteger(MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_PRICE);
+//        if(name == null) {
+//            throw new IllegalArgumentException("Menu Item Requires a Name");
+//        }
+//        if(price < 0 ) {
+//            throw new IllegalArgumentException("Price cannot be negetive");
+//        }
 
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
         int match = sUriMatcher.match(uri);
         switch (match) {
             case MENUITEMS:
+               // getContext().getContentResolver().notifyChange(uri,null);
                 return database.update(MenuItemsContract.MenuItemsEntry.TABLE_NAME,values,selection,selectionArgs);
             case MENUITEMS_ID:
                 selection = MenuItemsContract.MenuItemsEntry._ID + "=?";
                 selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
+               // getContext().getContentResolver().notifyChange(uri,null);
                 return database.update(MenuItemsContract.MenuItemsEntry.TABLE_NAME,values,selection,selectionArgs);
             default:
                 throw new IllegalArgumentException("Cannot update unknown URI " + uri);
