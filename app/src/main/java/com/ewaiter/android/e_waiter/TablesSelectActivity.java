@@ -46,9 +46,11 @@ public class TablesSelectActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             // Respond to a click on the "Up" arrow button in the app bar
-            case android.R.id.home:
-                // Navigate back to parent activity (CatalogActivity)
-                NavUtils.navigateUpFromSameTask(this);
+            case R.id.action_refresh:
+                Intent intentRestart = getIntent();
+                finish();
+                startActivity(intentRestart);
+                TablesAdapter.flag = true;
                 return true;
         }
         return super.onOptionsItemSelected(item);

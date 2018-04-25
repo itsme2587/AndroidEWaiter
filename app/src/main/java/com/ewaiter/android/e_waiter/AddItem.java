@@ -101,8 +101,6 @@ public class AddItem extends AppCompatActivity {
             case R.id.action_save:
                 // Save pet to database
                 insertMenuItem();
-                // Exit activity
-                finish();
                 return true;
             // Respond to a click on the "Up" arrow button in the app bar
             case android.R.id.home:
@@ -114,26 +112,31 @@ public class AddItem extends AppCompatActivity {
     }
 
     private void insertMenuItem() {
-        // Read from input fields
-        // Use trim to eliminate leading or trailing white space
-        String nameString = mNameEditText.getText().toString().trim();
-        String priceString = mPriceEditText.getText().toString().trim();
-        int price = Integer.parseInt(priceString);
 
-        // Create a ContentValues object where column names are the keys,
-        // and pet attributes from the editor are the values.
-        ContentValues values = new ContentValues();
-        values.put(MenuItemsEntry.COLUMN_ITEM_NAME, nameString);
-        values.put(MenuItemsEntry.COLUMN_ITEM_PRICE, price);
-        values.put(MenuItemsEntry.COLUMN_ITEM_CATEGORY, mCategory);
-
-        Uri newUri = getContentResolver().insert(MenuItemsEntry.CONTENT_URI,values);
-
-        if(newUri == null) {
-            Toast.makeText(this,"Error with saving item",Toast.LENGTH_SHORT).show();
+        if(mNameEditText.getText().toString().equals("")|| mPriceEditText.getText().toString().equals("")) {
+            Toast.makeText(this,"Fill all details to proceed",Toast.LENGTH_SHORT).show();
         }
         else {
-            Toast.makeText(this,"Item saved",Toast.LENGTH_SHORT).show();
+            String nameString = mNameEditText.getText().toString().trim();
+            String priceString = mPriceEditText.getText().toString().trim();
+            int price = Integer.parseInt(priceString);
+            // Create a ContentValues object where column names are the keys,
+            // and pet attributes from the editor are the values.
+            ContentValues values = new ContentValues();
+            values.put(MenuItemsEntry.COLUMN_ITEM_NAME, nameString);
+            values.put(MenuItemsEntry.COLUMN_ITEM_PRICE, price);
+            values.put(MenuItemsEntry.COLUMN_ITEM_CATEGORY, mCategory);
+
+            Uri newUri = getContentResolver().insert(MenuItemsEntry.CONTENT_URI,values);
+
+            if(newUri == null) {
+                Toast.makeText(this,"Error with saving item",Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(this,"Item saved",Toast.LENGTH_SHORT).show();
+            }
+            finish();
+
         }
 
 

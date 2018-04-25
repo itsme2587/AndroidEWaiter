@@ -23,6 +23,8 @@ class TablesAdapter extends RecyclerView.Adapter<TablesAdapter.TablesViewHolder>
 
     ArrayList<String> tableNumbers = new ArrayList<>();
     Context c;
+    public static boolean flag = true;
+    public static String credential;
 
     public TablesAdapter(Context c, ArrayList<String> tableNumbers) {
         this.tableNumbers = tableNumbers;
@@ -43,11 +45,19 @@ class TablesAdapter extends RecyclerView.Adapter<TablesAdapter.TablesViewHolder>
         holder.single_table.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(c,tableNumber + " Selected!",Toast.LENGTH_SHORT).show();
-                holder.tableTV.setBackgroundResource(R.drawable.table_shape_colored);
-                Intent intent = new Intent(c,MenuCategorySelectActivity.class);
-                intent.putExtra("tableNumber",tableNumber);
-                c.startActivity(intent);
+                if(flag == true || credential == tableNumber) {
+                    Toast.makeText(c,tableNumber + " Selected!",Toast.LENGTH_SHORT).show();
+                    holder.tableTV.setBackgroundResource(R.drawable.table_shape_colored);
+                    Intent intent = new Intent(c,MenuCategorySelectActivity.class);
+                    intent.putExtra("tableNumber",tableNumber);
+                    c.startActivity(intent);
+                    flag = false;
+                    credential = tableNumber;
+                }
+                else {
+                    Toast.makeText(c,"Complete the order of the table selected",Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
     }

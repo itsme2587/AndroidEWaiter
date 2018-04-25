@@ -19,28 +19,41 @@
         <activity
             android:name=".MenuCategorySelectActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity android:name=".AddItem"
-            android:label="Add Item"/>
-        <activity android:name=".Chinese"
-            android:theme="@style/Theme.AppCompat.NoActionBar"/>
-        <activity android:name=".Starters"
-            android:theme="@style/Theme.AppCompat.NoActionBar"/>
-        <activity android:name=".Beverages"
-            android:theme="@style/Theme.AppCompat.NoActionBar"/>
-        <activity android:name=".SouthIndian"
-            android:theme="@style/Theme.AppCompat.NoActionBar"/>
-        <activity android:name=".Salads"
-            android:theme="@style/Theme.AppCompat.NoActionBar"/>
-        <activity android:name=".MainCourse"
-            android:theme="@style/Theme.AppCompat.NoActionBar"/>
-        <activity android:name=".Breads"
-            android:theme="@style/Theme.AppCompat.NoActionBar"/>
-        <activity android:name=".Desserts"
-            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+        <activity
+            android:name=".AddItem"
+            android:label="Add Item" />
+        <activity
+            android:name=".Chinese"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".Starters"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".Beverages"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".SouthIndian"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".Salads"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".MainCourse"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".Breads"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".Desserts"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+
         <provider
-            android:authorities="com.ewaiter.android.e_waiter"
             android:name=".data.MenuItemProvider"
+            android:authorities="com.ewaiter.android.e_waiter"
             android:exported="false" />
+
+        <activity android:name=".Cart"
+            android:label="My Cart"></activity>
     </application>
 
 </manifest>

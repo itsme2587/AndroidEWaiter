@@ -1,14 +1,19 @@
 package com.ewaiter.android.e_waiter;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 public class MenuCategorySelectActivity extends AppCompatActivity {
+
+    ImageView cart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +37,16 @@ public class MenuCategorySelectActivity extends AppCompatActivity {
 
         TextView tableNumberIntent = findViewById(R.id.table_number_intent);
         tableNumberIntent.setText(getTableNumber());
+
+        cart = findViewById(R.id.cartIcon);
+        cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),Cart.class);
+                intent.putExtra("tableNumber",getTableNumber());
+                startActivity(intent);
+            }
+        });
     }
 
     public String getTableNumber() {
@@ -39,4 +54,5 @@ public class MenuCategorySelectActivity extends AppCompatActivity {
         String tableNumber = b.getString("tableNumber");
         return tableNumber;
     }
+
 }
