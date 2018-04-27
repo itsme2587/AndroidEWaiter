@@ -3,22 +3,32 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Items To Be Served"
+        android:textSize="30dp"
+        android:textColor="@color/colorAccent"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="8dp"/>
 
     <ListView
         android:id="@+id/orderDetailsListView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:stackFromBottom="true"
-        android:divider="@android:color/transparent"
-        android:transcriptMode="alwaysScroll"
-        tools:listitem="@layout/order_list"/>
+        android:layout_height="0dp"
+        android:layout_weight="10"/>
 
     <Button
         android:id="@+id/button_done"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Done"
+        android:layout_height="0dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1"
+        android:layout_margin="8dp"
+        android:text="Order Prepared"
         android:onClick="closeOrder"/>
 </LinearLayout>

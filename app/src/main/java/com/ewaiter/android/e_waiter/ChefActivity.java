@@ -47,7 +47,7 @@ public class ChefActivity extends AppCompatActivity {
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mOrderDatabaseReference = mFirebaseDatabase.getReference().child("orders");
 
-        mOrderListView = (ListView) findViewById(R.id.orderListView);
+        mOrderListView = findViewById(R.id.orderListView);
 
         // Initialize message ListView and its adapter
         final List<Order> orders = new ArrayList<>();
@@ -58,6 +58,10 @@ public class ChefActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 
     public void attachDatabaseReadListener() {
         if(mValueEventListener == null)

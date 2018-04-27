@@ -22,7 +22,6 @@ public class TablesSelectActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.table_select_activity);
 
@@ -64,8 +63,4 @@ public class TablesSelectActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void openChefActivity(View view) {
-        Intent i = new Intent(this, ChefActivity.class);
-        startActivity(i);
-    }
 }

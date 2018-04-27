@@ -46,7 +46,7 @@ public class OrderDetails extends AppCompatActivity {
 
         listOfOrders = ChefActivity.listOfOrders;
 
-        mOrderDetailsListView = (ListView) findViewById(R.id.orderDetailsListView);
+        mOrderDetailsListView = findViewById(R.id.orderDetailsListView);
 
         // Initialize message ListView and its adapter
         final List<OrderItem> orderItems;
@@ -66,7 +66,6 @@ public class OrderDetails extends AppCompatActivity {
                             order.getRef().child("orderStatus").setValue(false);
                         }
                     }
-
                 }
             }
             @Override
@@ -74,8 +73,8 @@ public class OrderDetails extends AppCompatActivity {
             }
         });
 
-        Intent i = new Intent(this,ChefActivity.class);
+      //  Intent i = new Intent(this,ChefActivity.class);
         finish();
-        startActivity(i);
+      //  startActivity(i);
     }
 }

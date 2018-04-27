@@ -1,6 +1,7 @@
 package com.ewaiter.android.e_waiter;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.v4.app.NavUtils;
@@ -101,6 +102,9 @@ public class AddItem extends AppCompatActivity {
             case R.id.action_save:
                 // Save pet to database
                 insertMenuItem();
+                Intent intentRestart = getIntent();
+                finish();
+                startActivity(intentRestart);
                 return true;
             // Respond to a click on the "Up" arrow button in the app bar
             case android.R.id.home:
@@ -135,7 +139,6 @@ public class AddItem extends AppCompatActivity {
             else {
                 Toast.makeText(this,"Item saved",Toast.LENGTH_SHORT).show();
             }
-            finish();
 
         }
 
