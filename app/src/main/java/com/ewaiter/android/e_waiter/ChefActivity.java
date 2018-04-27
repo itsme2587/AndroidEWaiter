@@ -1,7 +1,11 @@
 package com.ewaiter.android.e_waiter;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.nfc.Tag;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -39,6 +43,15 @@ public class ChefActivity extends AppCompatActivity {
     private DatabaseReference mOrderDatabaseReference;
     private ValueEventListener mValueEventListener;
 
+    private Boolean exit = false;
+    BroadcastReceiver broadcastReceiver;
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(broadcastReceiver);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,12 +69,19 @@ public class ChefActivity extends AppCompatActivity {
 
         attachDatabaseReadListener();
 
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                String action = intent.getAction();
+                if(action.equals("finish ChefActivity")) {
+                    finish();
+                }
+            }
+        };
+        registerReceiver(broadcastReceiver,new IntentFilter("finish ChefActivity"));
+
     }
 
-    @Override
-    public void onBackPressed() {
-        finish();
-    }
 
     public void attachDatabaseReadListener() {
         if(mValueEventListener == null)
@@ -101,6 +121,23 @@ public class ChefActivity extends AppCompatActivity {
         if(mValueEventListener != null) {
             mOrderDatabaseReference.removeEventListener(mValueEventListener);
             mValueEventListener = null;
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(exit) {
+            finish();
+        }
+        else {
+            Toast.makeText(this,"Press Back again to Exit.",Toast.LENGTH_SHORT).show();
+            exit = true;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    exit = false;
+                }
+            }, 3 * 1000);
         }
     }
 

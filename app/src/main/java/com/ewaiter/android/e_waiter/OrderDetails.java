@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.ewaiter.android.e_waiter.Adapter.OrderAdapter;
@@ -55,6 +58,7 @@ public class OrderDetails extends AppCompatActivity {
         mOrderDetailsAdapter = new OrderDetailsAdapter(this, R.layout.order_details_list_item, orderItems);
         mOrderDetailsListView.setAdapter(mOrderDetailsAdapter);
     }
+
     public void closeOrder(View view){
         mOrderDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -73,8 +77,11 @@ public class OrderDetails extends AppCompatActivity {
             }
         });
 
-      //  Intent i = new Intent(this,ChefActivity.class);
+        Intent br = new Intent("finish ChefActivity");
+        sendBroadcast(br);
+        Intent intent = new Intent(this,ChefActivity.class);
         finish();
-      //  startActivity(i);
+        startActivity(intent);
+
     }
 }

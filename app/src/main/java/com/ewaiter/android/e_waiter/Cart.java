@@ -1,7 +1,9 @@
 package com.ewaiter.android.e_waiter;
 
 import android.app.LoaderManager;
+import android.content.ContentValues;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -122,6 +124,14 @@ public class Cart extends AppCompatActivity implements LoaderManager.LoaderCallb
                     mItemDatabaseReference.push().setValue(tempItem);
                 }
                 Toast.makeText(this,"Order details sent to Chef",Toast.LENGTH_SHORT).show();
+                resetQuantity();
+                Intent br1 = new Intent("finish TableSelectActivity");
+                sendBroadcast(br1);
+                Intent br2 = new Intent("finish MenuCategorySelectActivity");
+                sendBroadcast(br2);
+                Intent intent = new Intent(this,TablesSelectActivity.class);
+                startActivity(intent);
+                finish();
                 return true;
             // Respond to a click on the "Up" arrow button in the app bar
             case android.R.id.home:
@@ -134,6 +144,12 @@ public class Cart extends AppCompatActivity implements LoaderManager.LoaderCallb
 
     public ArrayList<FirebaseCursorPojo> getArrayList() {
         return cursorPojoList;
+    }
+
+    public void resetQuantity() {
+        ContentValues values = new ContentValues();
+        values.put(MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_QUANTITY, 0);
+        this.getContentResolver().update(MenuItemsContract.MenuItemsEntry.CONTENT_URI,values,null,null);
     }
 
 

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +41,15 @@ public class OrderDetailsAdapter extends ArrayAdapter<OrderItem> {
 
         TextView itemNameTextView = (TextView) convertView.findViewById(R.id.item_name);
         TextView itemQuantityTextView = (TextView) convertView.findViewById(R.id.item_quantity);
+        final ImageView hiddenTick = convertView.findViewById(R.id.hiddenTick);
+        LinearLayout individualItem = convertView.findViewById(R.id.individual_list_view_details);
+
+        individualItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hiddenTick.setVisibility(View.VISIBLE);
+            }
+        });
 
         OrderItem orderItem = getItem(position);
 

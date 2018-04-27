@@ -1,6 +1,9 @@
 package com.ewaiter.android.e_waiter;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -14,6 +17,13 @@ import java.util.ArrayList;
 public class MenuCategorySelectActivity extends AppCompatActivity {
 
     ImageView cart;
+    BroadcastReceiver broadcastReceiver;
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(broadcastReceiver);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +57,17 @@ public class MenuCategorySelectActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                String action = intent.getAction();
+                if(action.equals("finish MenuCategorySelectActivity")) {
+                    finish();
+                }
+            }
+        };
+        registerReceiver(broadcastReceiver,new IntentFilter("finish MenuCategorySelectActivity"));
     }
 
     public String getTableNumber() {
