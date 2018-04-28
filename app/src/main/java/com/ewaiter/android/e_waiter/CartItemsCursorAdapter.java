@@ -52,7 +52,7 @@ public class CartItemsCursorAdapter extends RecyclerView.Adapter<CartItemsCursor
         holder.categoryText.setText("(" + category + ")");
         holder.quantityText.setText(String.valueOf(quantity));
         holder.priceText.setText("(" + String.valueOf(price));
-        holder.totalText.setText(String.valueOf(price * quantity));
+        holder.totalText.setText("Rs." + String.valueOf(price * quantity));
 
     }
 

@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -66,6 +67,9 @@ public class ChefActivity extends AppCompatActivity {
         final List<Order> orders = new ArrayList<>();
         mOrderAdapter = new OrderAdapter(this, R.layout.order_list_item, orders);
         mOrderListView.setAdapter(mOrderAdapter);
+
+        View emptyView = findViewById(R.id.empty_view);
+        mOrderListView.setEmptyView(emptyView);
 
         attachDatabaseReadListener();
 

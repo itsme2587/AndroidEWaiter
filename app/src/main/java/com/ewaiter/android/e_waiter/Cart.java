@@ -43,37 +43,44 @@ public class Cart extends AppCompatActivity implements LoaderManager.LoaderCallb
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cart);
 
-        //To get access to database
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mOrderDatabaseReference = mFirebaseDatabase.getReference().child("orders");
-
-        RecyclerView recyclerView = findViewById(R.id.recyclerView_cart);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter = new CartItemsCursorAdapter(this, getItems());
-        recyclerView.setAdapter(mAdapter);
-
-        getLoaderManager().initLoader(CART_ITEMS_LOADER, null, this);
-
-        totalSum = findViewById(R.id.cart_total);
-
-        MenuItemsDbHelper dbHelper = new MenuItemsDbHelper(this);
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursorSum = db.rawQuery("SELECT SUM(" + MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_PRICE + "*" + MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_QUANTITY + ") as Total FROM " + MenuItemsContract.MenuItemsEntry.TABLE_NAME, null);
-        if (cursorSum.moveToFirst()) {
-            int total = cursorSum.getInt(cursorSum.getColumnIndex("Total"));
-            totalSum.setText(String.valueOf(total));
+        if(getItems().getCount() == 0) {
+            setContentView(R.layout.empty_view);
         }
 
-        Cursor cursor = getItems();
+        else {
+            setContentView(R.layout.activity_cart);
+            //To get access to database
+            mFirebaseDatabase = FirebaseDatabase.getInstance();
+            mOrderDatabaseReference = mFirebaseDatabase.getReference().child("orders");
 
-        while (cursor.moveToNext()) {
-            String name = cursor.getString(cursor.getColumnIndex(MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_NAME));
-            String category = cursor.getString(cursor.getColumnIndex(MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_CATEGORY));
-            int quantity = cursor.getInt(cursor.getColumnIndex(MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_QUANTITY));
-            int unitPrice = cursor.getInt(cursor.getColumnIndex(MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_PRICE));
-            cursorPojoList.add(new FirebaseCursorPojo(name,category,unitPrice,quantity));
+            RecyclerView recyclerView = findViewById(R.id.recyclerView_cart);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            mAdapter = new CartItemsCursorAdapter(this, getItems());
+            recyclerView.setAdapter(mAdapter);
+
+            getLoaderManager().initLoader(CART_ITEMS_LOADER, null, this);
+
+            totalSum = findViewById(R.id.cart_total);
+
+            MenuItemsDbHelper dbHelper = new MenuItemsDbHelper(this);
+            SQLiteDatabase db = dbHelper.getReadableDatabase();
+            Cursor cursorSum = db.rawQuery("SELECT SUM(" + MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_PRICE + "*" + MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_QUANTITY + ") as Total FROM " + MenuItemsContract.MenuItemsEntry.TABLE_NAME, null);
+            if (cursorSum.moveToFirst()) {
+                int total = cursorSum.getInt(cursorSum.getColumnIndex("Total"));
+                totalSum.setText("Rs." + String.valueOf(total));
+            }
+
+            Cursor cursor = getItems();
+
+            while (cursor.moveToNext()) {
+                String name = cursor.getString(cursor.getColumnIndex(MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_NAME));
+                String category = cursor.getString(cursor.getColumnIndex(MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_CATEGORY));
+                int quantity = cursor.getInt(cursor.getColumnIndex(MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_QUANTITY));
+                int unitPrice = cursor.getInt(cursor.getColumnIndex(MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_PRICE));
+                cursorPojoList.add(new FirebaseCursorPojo(name,category,unitPrice,quantity));
+            }
+
         }
     }
 
@@ -109,6 +116,9 @@ public class Cart extends AppCompatActivity implements LoaderManager.LoaderCallb
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.cart_order_proceed, menu);
+        if(getItems().getCount() == 0) {
+            menu.findItem(R.id.action_proceed).setEnabled(false);
+        }
         return true;
     }
 
