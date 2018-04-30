@@ -31,5 +31,16 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     compile 'com.android.support:recyclerview-v7:26.1.0'
     compile 'com.makeramen:roundedimageview:2.3.0'
-}
 
+    //Firebase
+    compile 'com.google.firebase:firebase-database:9.6.0'
+//    compile 'com.google.firebase:firebase-auth:9.6.0'
+//    compile 'com.google.firebase:firebase-storage:9.6.0'
+//    compile 'com.google.firebase:firebase-messaging:9.6.0'
+//    compile 'com.google.firebase:firebase-config:9.6.0'
+
+    //FirebaseUI
+//    compile 'com.firebaseui:firebase-ui-auth:0.6.0'
+}
+// To read google-services jason file which contains connection to firebase
+apply plugin: 'com.google.gms.google-services'

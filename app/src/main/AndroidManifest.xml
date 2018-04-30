@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TablesSelectActivity"
+        <activity
+            android:name=".TablesSelectActivity"
             android:theme="@style/AppTheme.Launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -53,8 +54,11 @@
             android:authorities="com.ewaiter.android.e_waiter"
             android:exported="false" />
 
-        <activity android:name=".Cart"
-            android:label="My Cart"></activity>
+        <activity
+            android:name=".Cart"
+            android:label="My Cart" />
+        <activity android:name=".ChefActivity" />
+        <activity android:name=".OrderDetails"></activity>
     </application>
 
 </manifest>
