@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "945481712510",
+    "firebase_url": "https://androidewaiter.firebaseio.com",
+    "project_id": "androidewaiter",
+    "storage_bucket": "androidewaiter.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:945481712510:android:1dea87933ca7fe92",
+        "android_client_info": {
+          "package_name": "com.ewaiter.android.e_waiter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "945481712510-erp2pfo0hq6i25sv4o2riuofjnec4ik4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ewaiter.android.e_waiter",
+            "certificate_hash": "98593b89934ca1423e2795a6b8628eeb97e63e86"
+          }
+        },
+        {
+          "client_id": "945481712510-mb9h0u2v0osgvps27bvmkli0rjf9bd2r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFb7d9M5yXurYYRwTgxlP30Oz-wFZvkGo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "945481712510-mb9h0u2v0osgvps27bvmkli0rjf9bd2r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
