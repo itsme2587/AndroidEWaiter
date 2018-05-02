@@ -104,6 +104,10 @@ public class ChefActivity extends AppCompatActivity {
                                 OrderItem orderItem = new OrderItem(o.getItemName(),o.getQuantity()+"");
                                 orderItems.add(orderItem);
                             }
+                            else {
+                                orderItems.clear();
+                                break;
+                            }
                         }
                         if(status) {
                             listOfOrders.add(new OrderItemHolder(orderItems));

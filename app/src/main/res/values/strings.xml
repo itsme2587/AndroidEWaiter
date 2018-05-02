@@ -117,6 +117,7 @@
     <string name="editor_insert_item_failed">Insertion Failed</string>
     <string name="editor_insert_pet_successful">Insertion Succesful</string>
     <string name="action_refresh">refresh</string>
+    <string name="action_generate_bill">Generate Bill</string>
 </resources>
 
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,12 +22,10 @@ import java.util.ArrayList;
 
 class TablesAdapter extends RecyclerView.Adapter<TablesAdapter.TablesViewHolder> {
 
-    ArrayList<String> tableNumbers = new ArrayList<>();
+    ArrayList<Table> tableNumbers = new ArrayList<>();
     Context c;
-    public static boolean flag = true;
-    public static String credential;
 
-    public TablesAdapter(Context c, ArrayList<String> tableNumbers) {
+    public TablesAdapter(Context c, ArrayList<Table> tableNumbers) {
         this.tableNumbers = tableNumbers;
         this.c = c;
     }
@@ -40,24 +39,24 @@ class TablesAdapter extends RecyclerView.Adapter<TablesAdapter.TablesViewHolder>
 
     @Override
     public void onBindViewHolder(final TablesViewHolder holder, int position) {
-        final String tableNumber = tableNumbers.get(position);
-        holder.tableTV.setText(tableNumber);
+        final Table tableNumber = tableNumbers.get(position);
+        Log.i("stressed", String.valueOf(tableNumber.isStatus()));
+        if(tableNumber.isStatus() == false) {
+            holder.tableTV.setBackgroundResource(R.drawable.table_shape);
+        }
+        else {
+            holder.tableTV.setBackgroundResource(R.drawable.table_shape_colored);
+        }
+        holder.tableTV.setText(tableNumber.getTableNumber());
         holder.single_table.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(flag == true || credential == tableNumber) {
-                    Toast.makeText(c,tableNumber + " Selected!",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(c,tableNumber.getTableNumber() + " Selected!",Toast.LENGTH_SHORT).show();
                     holder.tableTV.setBackgroundResource(R.drawable.table_shape_colored);
                     Intent intent = new Intent(c,MenuCategorySelectActivity.class);
-                    intent.putExtra("tableNumber",tableNumber);
+                    intent.putExtra("tableNumber",tableNumber.getTableNumber());
                     c.startActivity(intent);
-                    flag = false;
-                    credential = tableNumber;
-                }
-                else {
-                    Toast.makeText(c,"Complete the order of the table selected",Toast.LENGTH_SHORT).show();
-                }
-
+                    tableNumber.setStatus(true);
             }
         });
     }

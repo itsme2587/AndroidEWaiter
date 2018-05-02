@@ -2,19 +2,24 @@ package com.ewaiter.android.e_waiter;
 
 import android.app.LoaderManager;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,12 +42,16 @@ public class Cart extends AppCompatActivity implements LoaderManager.LoaderCallb
 
     private static final int CART_ITEMS_LOADER = 100;
     CartItemsCursorAdapter mAdapter;
-    TextView totalSum;
     ArrayList<FirebaseCursorPojo> cursorPojoList = new ArrayList<>();
+
+    String TABLE_NUMBER;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Bundle b = getIntent().getExtras();
+        TABLE_NUMBER = b.getString("tableNumber");
 
         if(getItems().getCount() == 0) {
             setContentView(R.layout.empty_view);
@@ -61,15 +70,13 @@ public class Cart extends AppCompatActivity implements LoaderManager.LoaderCallb
 
             getLoaderManager().initLoader(CART_ITEMS_LOADER, null, this);
 
-            totalSum = findViewById(R.id.cart_total);
-
-            MenuItemsDbHelper dbHelper = new MenuItemsDbHelper(this);
-            SQLiteDatabase db = dbHelper.getReadableDatabase();
-            Cursor cursorSum = db.rawQuery("SELECT SUM(" + MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_PRICE + "*" + MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_QUANTITY + ") as Total FROM " + MenuItemsContract.MenuItemsEntry.TABLE_NAME, null);
-            if (cursorSum.moveToFirst()) {
-                int total = cursorSum.getInt(cursorSum.getColumnIndex("Total"));
-                totalSum.setText("Rs." + String.valueOf(total));
-            }
+//            MenuItemsDbHelper dbHelper = new MenuItemsDbHelper(this);
+//            SQLiteDatabase db = dbHelper.getReadableDatabase();
+//            Cursor cursorSum = db.rawQuery("SELECT SUM(" + MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_PRICE + "*" + MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_QUANTITY + ") as Total FROM " + MenuItemsContract.MenuItemsEntry.TABLE_NAME, null);
+//            if (cursorSum.moveToFirst()) {
+//                int total = cursorSum.getInt(cursorSum.getColumnIndex("Total"));
+//                totalSum.setText("Rs." + String.valueOf(total));
+//            }
 
             Cursor cursor = getItems();
 
@@ -82,6 +89,7 @@ public class Cart extends AppCompatActivity implements LoaderManager.LoaderCallb
             }
 
         }
+
     }
 
 
@@ -127,6 +135,7 @@ public class Cart extends AppCompatActivity implements LoaderManager.LoaderCallb
         switch (item.getItemId()) {
             // Respond to a click on the "Save" menu option
             case R.id.action_proceed:
+                orderSaveToSharedPreferance();
                 // Save cart list to database
                 mItemDatabaseReference = mFirebaseDatabase.getReference().child("orders").push();
                 ArrayList<FirebaseCursorPojo> items = getArrayList();
@@ -135,15 +144,22 @@ public class Cart extends AppCompatActivity implements LoaderManager.LoaderCallb
                 }
                 Toast.makeText(this,"Order details sent to Chef",Toast.LENGTH_SHORT).show();
                 resetQuantity();
-                Intent br1 = new Intent("finish TableSelectActivity");
-                sendBroadcast(br1);
+              //  Intent br1 = new Intent("finish TableSelectActivity");
+              //  sendBroadcast(br1);
                 Intent br2 = new Intent("finish MenuCategorySelectActivity");
                 sendBroadcast(br2);
-                Intent intent = new Intent(this,TablesSelectActivity.class);
-                startActivity(intent);
+              //  Intent intent = new Intent(this,TablesSelectActivity.class);
+              //  startActivity(intent);
                 finish();
                 return true;
             // Respond to a click on the "Up" arrow button in the app bar
+            case R.id.action_generate_bill:
+                Intent intentBill = new Intent(Cart.this, OrderTotalCheckOut.class);
+                intentBill.putExtra("tableNumber",TABLE_NUMBER);
+                startActivity(intentBill);
+                finish();
+                return true;
+
             case android.R.id.home:
                 // Navigate back to parent activity (CatalogActivity)
                 NavUtils.navigateUpFromSameTask(this);
@@ -160,6 +176,28 @@ public class Cart extends AppCompatActivity implements LoaderManager.LoaderCallb
         ContentValues values = new ContentValues();
         values.put(MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_QUANTITY, 0);
         this.getContentResolver().update(MenuItemsContract.MenuItemsEntry.CONTENT_URI,values,null,null);
+    }
+
+    public void orderSaveToSharedPreferance() {
+
+        SharedPreferences sharedPreference = getSharedPreferences(TABLE_NUMBER, Context.MODE_PRIVATE);
+        String completeOrder = sharedPreference.getString("Order_Details","");
+        SharedPreferences.Editor editor = sharedPreference.edit();
+        editor.putString("Order_Details",completeOrder + proceedOrderString());
+        editor.commit();
+    }
+
+    public String proceedOrderString() {
+        String orderString = "";
+        Cursor cursor = getItems();
+        while(cursor.moveToNext()) {
+            String name = cursor.getString(cursor.getColumnIndex(MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_NAME));
+            String quantity = String.valueOf(cursor.getInt(cursor.getColumnIndex(MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_QUANTITY)));
+            String category = cursor.getString(cursor.getColumnIndex(MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_CATEGORY));
+            String price = String.valueOf(cursor.getInt(cursor.getColumnIndex(MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_PRICE)));
+            orderString = (orderString + name + "," + quantity + "," +  category + "," + price + "/");
+        }
+        return orderString;
     }
 
 

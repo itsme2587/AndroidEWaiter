@@ -28,17 +28,17 @@ public class OrderAdapter extends ArrayAdapter<Order> {
             convertView = ((Activity) getContext()).getLayoutInflater().inflate(R.layout.order_list_item, parent, false);
         }
 
-        TextView orderStatusTextView = (TextView) convertView.findViewById(R.id.order_status);
-        TextView orderIdTextView = (TextView) convertView.findViewById(R.id.order_id);
-        LinearLayout orderListItemView = (LinearLayout) convertView.findViewById(R.id.order_list_item_view);
+        TextView orderStatusTextView = convertView.findViewById(R.id.order_status);
+        TextView orderIdTextView = convertView.findViewById(R.id.order_id);
+        LinearLayout orderListItemView = convertView.findViewById(R.id.order_list_item_view);
 
         final Order order = getItem(position);
 
         String orderStatus = null;
         if(order.isOrderSatus())
-            orderStatus = "open";
+            orderStatus = "Active";
         else
-            orderStatus = "closed";
+            orderStatus = "Closed";
 
         orderStatusTextView.setText(orderStatus);
         orderIdTextView.setText(order.getOrderKey());

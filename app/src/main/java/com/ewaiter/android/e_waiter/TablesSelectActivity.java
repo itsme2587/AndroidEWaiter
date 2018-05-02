@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -20,12 +21,19 @@ import java.util.ArrayList;
 public class TablesSelectActivity extends AppCompatActivity {
 
     BroadcastReceiver broadcastReceiver;
-    private Boolean exit = false;
+    IntentFilter myFilter = new IntentFilter();
+    TablesAdapter mAdapter;
+    private boolean exit = false;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mAdapter.notifyDataSetChanged();
+    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        TablesAdapter.flag = true;
         unregisterReceiver(broadcastReceiver);
     }
 
@@ -38,26 +46,65 @@ public class TablesSelectActivity extends AppCompatActivity {
             finish();
         }
 
-        ArrayList<String> tableNumbers = new ArrayList<>();
+        final ArrayList<Table> tableNumbers = new ArrayList<>();
 
         for(int i = 1 ; i <= 12 ; i++) {
-            tableNumbers.add("Table " + i);
+            tableNumbers.add(new Table("Table " + i,false));
         }
 
         RecyclerView rv = findViewById(R.id.recycler_view_table);
         rv.setLayoutManager(new GridLayoutManager(this,2));
-        rv.setAdapter(new TablesAdapter(this,tableNumbers));
+        mAdapter = new TablesAdapter(this,tableNumbers);
+        rv.setAdapter(mAdapter);
+
+        for(int i = 1 ; i <=12 ; i++) {
+            myFilter.addAction("finish Table " + i);
+        }
+
 
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 String action = intent.getAction();
-                if(action.equals("finish TableSelectActivity")) {
-                    finish();
+                if(action.equals("finish Table 1")) {
+                    tableNumbers.get(0).setStatus(false);
+                }
+                if(action.equals("finish Table 2")) {
+                    tableNumbers.get(1).setStatus(false);
+                }
+                if(action.equals("finish Table 3")) {
+                    tableNumbers.get(2).setStatus(false);
+                }
+                if(action.equals("finish Table 4")) {
+                    tableNumbers.get(3).setStatus(false);
+                }
+                if(action.equals("finish Table 5")) {
+                    tableNumbers.get(4).setStatus(false);
+                }
+                if(action.equals("finish Table 6")) {
+                    tableNumbers.get(5).setStatus(false);
+                }
+                if(action.equals("finish Table 7")) {
+                    tableNumbers.get(6).setStatus(false);
+                }
+                if(action.equals("finish Table 8")) {
+                    tableNumbers.get(7).setStatus(false);
+                }
+                if(action.equals("finish Table 9")) {
+                    tableNumbers.get(8).setStatus(false);
+                }
+                if(action.equals("finish Table 10")) {
+                    tableNumbers.get(9).setStatus(false);
+                }
+                if(action.equals("finish Table 11")) {
+                    tableNumbers.get(10).setStatus(false);
+                }
+                if(action.equals("finish Table 12")) {
+                    tableNumbers.get(11).setStatus(false);
                 }
             }
         };
-        registerReceiver(broadcastReceiver,new IntentFilter("finish TableSelectActivity"));
+        registerReceiver(broadcastReceiver,myFilter);
     }
 
     @Override
@@ -81,7 +128,6 @@ public class TablesSelectActivity extends AppCompatActivity {
                 Intent intentRestart = getIntent();
                 finish();
                 startActivity(intentRestart);
-                TablesAdapter.flag = true;
                 return true;
         }
         return super.onOptionsItemSelected(item);
