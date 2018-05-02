@@ -31,17 +31,18 @@ public class OrderTotalCheckOut extends AppCompatActivity {
 
         mAdapter = new BillItemsAdapter(this, billItems);
 
-        if(mAdapter.getItemCount() == 0) {
-            Toast.makeText(this,"No ordered yet",Toast.LENGTH_SHORT).show();
+        Bundle b = getIntent().getExtras();
+        final String TABLE_NUMBER = b.getString("tableNumber");
+
+        final SharedPreferences sharedPreference = getSharedPreferences(TABLE_NUMBER, Context.MODE_PRIVATE);
+        String completeOrder = sharedPreference.getString("Order_Details","No String Found");
+
+        if(completeOrder.equals("No String Found")) {
+            Toast.makeText(this,"Nothing To Display",Toast.LENGTH_SHORT).show();
             finish();
         }
+
         else {
-            Bundle b = getIntent().getExtras();
-            final String TABLE_NUMBER = b.getString("tableNumber");
-
-            final SharedPreferences sharedPreference = getSharedPreferences(TABLE_NUMBER, Context.MODE_PRIVATE);
-            String completeOrder = sharedPreference.getString("Order_Details","No String Found");
-
             String[] items = completeOrder.split("/");
 
             for(int i = 0 ; i < items.length ; i++) {
@@ -53,6 +54,8 @@ public class OrderTotalCheckOut extends AppCompatActivity {
                 billItems.add(new BillItem(name,price,quantity,category));
                 subtotal = subtotal + (Integer.parseInt(quantity)*Integer.parseInt(price));
             }
+
+
 
             RecyclerView recyclerView = findViewById(R.id.recyclerView_checkout);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -95,7 +98,6 @@ public class OrderTotalCheckOut extends AppCompatActivity {
                 }
             });
         }
-
-
     }
+
 }
