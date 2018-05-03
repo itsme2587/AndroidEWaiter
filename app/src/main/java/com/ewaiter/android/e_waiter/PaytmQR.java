@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.ewaiter.android.e_waiter.Models.OrderSummary;
 import com.google.firebase.database.DatabaseReference;
@@ -17,6 +18,7 @@ public class PaytmQR extends AppCompatActivity {
     private DatabaseReference mOrderSummaryDatabaseReference;
 
     private Button closeButton;
+    private TextView amountPayed;
 
     private String key;
     private float amount;
@@ -34,15 +36,19 @@ public class PaytmQR extends AppCompatActivity {
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mOrderSummaryDatabaseReference = mFirebaseDatabase.getReference().child("orderSummary");
 
+        amountPayed = findViewById(R.id.amount_payed);
         closeButton = findViewById(R.id.close);
+
+        amountPayed.setText(String.valueOf(amount));
 
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mOrderSummaryDatabaseReference.push().setValue(new OrderSummary(key,table,getDeviceToken(),"paytm",amount));
-                Intent tablesActivity = new Intent(getBaseContext(),TablesSelectActivity.class);
-                getBaseContext().startActivity(tablesActivity);
+                Intent br2 = new Intent("finish PaymentOptions");
+                sendBroadcast(br2);
                 finish();
+
             }
         });
     }

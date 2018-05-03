@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_above="@+id/cash"
-        android:text="PAYTM"
+        android:text="PayTM"
         tools:layout_editor_absoluteX="148dp"
         tools:layout_editor_absoluteY="291dp" />
 
@@ -54,13 +54,26 @@
 
     <TextView
         android:id="@+id/amount"
-        tools:text="2354"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView"
+        android:layout_alignBottom="@+id/textView"
+        android:layout_toEndOf="@+id/paytm"
+        android:layout_toRightOf="@+id/paytm"
         android:textSize="20dp"
         android:textStyle="bold"
+        tools:text="2354" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/textView"
-        android:layout_toEndOf="@+id/table"
-        android:layout_toRightOf="@+id/table"/>
+        android:layout_alignBaseline="@+id/amount"
+        android:layout_alignBottom="@+id/amount"
+        android:layout_toLeftOf="@+id/amount"
+        android:layout_toStartOf="@+id/amount"
+        android:textStyle="bold"
+        android:text="Rs."
+        android:textSize="20dp"/>
 
 </RelativeLayout>

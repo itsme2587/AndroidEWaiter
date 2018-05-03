@@ -1,9 +1,11 @@
 package com.ewaiter.android.e_waiter;
 
 import android.content.BroadcastReceiver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +17,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.ewaiter.android.e_waiter.data.MenuItemsContract;
 
 import java.util.ArrayList;
 
@@ -41,6 +45,13 @@ public class TablesSelectActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.table_select_activity);
+
+        for(int i = 1 ; i <= 12 ; i++) {
+            SharedPreferences sharedPreference = getSharedPreferences("Table " + i, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreference.edit();
+            editor.clear();
+            editor.commit();
+        }
 
         if(getIntent().getBooleanExtra("EXIT",false)) {
             finish();
@@ -125,6 +136,9 @@ public class TablesSelectActivity extends AppCompatActivity {
                 return true;
             // Respond to a click on the "Up" arrow button in the app bar
             case R.id.action_refresh:
+                ContentValues values = new ContentValues();
+                values.put(MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_QUANTITY, 0);
+                this.getContentResolver().update(MenuItemsContract.MenuItemsEntry.CONTENT_URI,values,null,null);
                 Intent intentRestart = getIntent();
                 finish();
                 startActivity(intentRestart);

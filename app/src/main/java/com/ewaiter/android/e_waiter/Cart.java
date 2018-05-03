@@ -152,8 +152,8 @@ public class Cart extends AppCompatActivity implements LoaderManager.LoaderCallb
                 resetQuantity();
               //  Intent br1 = new Intent("finish TableSelectActivity");
               //  sendBroadcast(br1);
-                Intent br2 = new Intent("finish MenuCategorySelectActivity");
-                sendBroadcast(br2);
+                Intent br1 = new Intent("finish MenuCategorySelectActivity");
+                sendBroadcast(br1);
               //  Intent intent = new Intent(this,TablesSelectActivity.class);
               //  startActivity(intent);
                 finish();

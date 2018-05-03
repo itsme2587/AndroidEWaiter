@@ -15,7 +15,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class OrderTotalCheckOut extends AppCompatActivity {
 
@@ -24,9 +26,10 @@ public class OrderTotalCheckOut extends AppCompatActivity {
     private float taxes;
     BillItemsAdapter mAdapter;
 
-    String key = "5-5-2018";
-    float amount = 1243.25f;
+    String key;
+    float amount;
     String tableNumber;
+    String mail = "";
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -43,11 +46,13 @@ public class OrderTotalCheckOut extends AppCompatActivity {
         String completeOrder = sharedPreference.getString("Order_Details","No String Found");
 
         if(completeOrder.equals("No String Found")) {
-            Toast.makeText(this,"Nothing To Display",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Initiate a Order first",Toast.LENGTH_SHORT).show();
             finish();
         }
 
         else {
+            Intent br2 = new Intent("finish MenuCategorySelectActivity");
+            sendBroadcast(br2);
             String[] items = completeOrder.split("/");
 
             for(int i = 0 ; i < items.length ; i++) {
@@ -58,6 +63,7 @@ public class OrderTotalCheckOut extends AppCompatActivity {
                 String price = singleItem[3];
                 billItems.add(new BillItem(name,price,quantity,category));
                 subtotal = subtotal + (Integer.parseInt(quantity)*Integer.parseInt(price));
+                mail = mail + name + "(" + quantity + ")-Rs." + String.valueOf(Integer.parseInt(quantity)*Integer.parseInt(price)) + "\n";
             }
 
 
@@ -72,20 +78,23 @@ public class OrderTotalCheckOut extends AppCompatActivity {
 
             taxes = Math.round((18f/100) * subtotal);
             subtotal = Math.round(subtotal);
+            amount = subtotal + taxes;
 
             subtotalTv.setText("Rs." + String.valueOf(subtotal));
             taxesTv.setText("Rs." + String.valueOf(taxes));
-            totalTv.setText("Rs." + String.valueOf(subtotal + taxes));
+            totalTv.setText("Rs." + String.valueOf(amount));
 
             ImageView makePayment = findViewById(R.id.make_payment);
             ImageView sendBill = findViewById(R.id.send_bill);
 
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            Date date = new Date();
+            key = formatter.format(date);
+            mail = mail + "\nSubtotal-Rs." + String.valueOf(subtotal) + "\nTaxes-Rs." + String.valueOf(taxes) + "\nTotal amount to pay-Rs." + String.valueOf(amount);
+
             makePayment.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intentPayment = new Intent(OrderTotalCheckOut.this,PaymentActivity.class);
-                    finish();
-                    startActivity(intentPayment);
                     Intent br = new Intent("finish " + tableNumber);
                     sendBroadcast(br);
                     SharedPreferences.Editor editor = sharedPreference.edit();
@@ -112,7 +121,7 @@ public class OrderTotalCheckOut extends AppCompatActivity {
                     //intent.putExtra(intent.EXTRA_EMAIL, "amanchopra2588@gmail.com");
                     //no effect of upper line
                     intent.putExtra(Intent.EXTRA_SUBJECT, "Invoice");
-                    intent.putExtra(Intent.EXTRA_TEXT, "Order details");
+                    intent.putExtra(Intent.EXTRA_TEXT, mail);
                     if(intent.resolveActivity(getPackageManager()) != null) {
                         startActivity(intent);
                     }

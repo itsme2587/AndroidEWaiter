@@ -70,11 +70,10 @@
             android:name=".OrderTotalCheckOut"
             android:label="E-Bill"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity
-            android:name=".PaymentActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".PaymentOptions" />
-        <activity android:name=".PaytmQR"></activity>
+        <activity android:name=".PaymentOptions"
+            android:label="Payment Options"/>
+        <activity android:name=".PaytmQR"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
     </application>
 
 </manifest>

@@ -1,6 +1,9 @@
 package com.ewaiter.android.e_waiter;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,6 +20,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 
 public class PaymentOptions extends AppCompatActivity {
+
+    BroadcastReceiver broadcastReceiver;
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(broadcastReceiver);
+    }
 
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mOrderSummaryDatabaseReference;
@@ -69,14 +80,21 @@ public class PaymentOptions extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mOrderSummaryDatabaseReference.push().setValue(new OrderSummary(key,table,getDeviceToken(),"cash",amount));
-                Intent tablesActivity = new Intent(getBaseContext(),TablesSelectActivity.class);
-                getBaseContext().startActivity(tablesActivity);
                 finish();
             }
         });
+
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                String action = intent.getAction();
+                if(action.equals("finish PaymentOptions")) {
+                    finish();
+                }
+            }
+        };
+        registerReceiver(broadcastReceiver,new IntentFilter("finish PaymentOptions"));
     }
-
-
     public String getDeviceToken() {
         String deviceToken = Settings.Secure.getString(getApplicationContext().getContentResolver(),Settings.Secure.ANDROID_ID);
         return deviceToken;
