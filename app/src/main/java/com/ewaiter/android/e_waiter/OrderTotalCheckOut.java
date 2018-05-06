@@ -3,6 +3,7 @@ package com.ewaiter.android.e_waiter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +24,10 @@ public class OrderTotalCheckOut extends AppCompatActivity {
     private float taxes;
     BillItemsAdapter mAdapter;
 
+    String key = "5-5-2018";
+    float amount = 1243.25f;
+    String tableNumber;
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +37,9 @@ public class OrderTotalCheckOut extends AppCompatActivity {
         mAdapter = new BillItemsAdapter(this, billItems);
 
         Bundle b = getIntent().getExtras();
-        final String TABLE_NUMBER = b.getString("tableNumber");
+        tableNumber = b.getString("tableNumber");
 
-        final SharedPreferences sharedPreference = getSharedPreferences(TABLE_NUMBER, Context.MODE_PRIVATE);
+        final SharedPreferences sharedPreference = getSharedPreferences(tableNumber, Context.MODE_PRIVATE);
         String completeOrder = sharedPreference.getString("Order_Details","No String Found");
 
         if(completeOrder.equals("No String Found")) {
@@ -81,20 +86,36 @@ public class OrderTotalCheckOut extends AppCompatActivity {
                     Intent intentPayment = new Intent(OrderTotalCheckOut.this,PaymentActivity.class);
                     finish();
                     startActivity(intentPayment);
-                    Intent br = new Intent("finish " + TABLE_NUMBER);
+                    Intent br = new Intent("finish " + tableNumber);
                     sendBroadcast(br);
                     SharedPreferences.Editor editor = sharedPreference.edit();
                     editor.clear();
                     editor.commit();
                     Intent br2 = new Intent("finish MenuCategorySelectActivity");
                     sendBroadcast(br2);
+
+                    //Open PaymentOptions
+                    Intent intentPaymentOptions = new Intent(getApplicationContext(), PaymentOptions.class);
+                    intentPaymentOptions.putExtra("key",key);
+                    intentPaymentOptions.putExtra("amount",amount);
+                    intentPaymentOptions.putExtra("table",tableNumber);
+                    getApplicationContext().startActivity(intentPaymentOptions);
+                    finish();
                 }
             });
 
             sendBill.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    Intent intent = new Intent(Intent.ACTION_SENDTO);
+                    intent.setData(Uri.parse("mailto:amanchopra2587@gmail.com"));
+                    //intent.putExtra(intent.EXTRA_EMAIL, "amanchopra2588@gmail.com");
+                    //no effect of upper line
+                    intent.putExtra(Intent.EXTRA_SUBJECT, "Invoice");
+                    intent.putExtra(Intent.EXTRA_TEXT, "Order details");
+                    if(intent.resolveActivity(getPackageManager()) != null) {
+                        startActivity(intent);
+                    }
                 }
             });
         }

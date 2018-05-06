@@ -1,4 +1,4 @@
-package com.ewaiter.android.e_waiter;
+package com.ewaiter.android.e_waiter.Models;
 
 /**
  * Created by Ayush on 25-04-2018.
@@ -11,6 +11,24 @@ public class FirebaseCursorPojo {
     private int itemUnitPrice;
     private int quantity;
     private boolean orderStatus;
+    private String table;
+
+    public String getTable() {
+        return table;
+    }
+
+    public void setTable(String table) {
+        this.table = table;
+    }
+
+    public FirebaseCursorPojo(String itemName, String itemCategory, int itemUnitPrice, int quantity, boolean orderStatus, String table) {
+        this.itemName = itemName;
+        this.itemCategory = itemCategory;
+        this.itemUnitPrice = itemUnitPrice;
+        this.quantity = quantity;
+        this.orderStatus = orderStatus;
+        this.table = table;
+    }
 
     public FirebaseCursorPojo() {
     }
@@ -23,12 +41,13 @@ public class FirebaseCursorPojo {
         orderStatus = true;
     }
 
-    public FirebaseCursorPojo(String itemName, String itemCategory, int itemUnitPrice, int quantity, boolean orderStatus) {
+    public FirebaseCursorPojo(String itemName, String itemCategory, int itemUnitPrice, int quantity, String table) {
         this.itemName = itemName;
         this.itemCategory = itemCategory;
         this.itemUnitPrice = itemUnitPrice;
         this.quantity = quantity;
-        this.orderStatus = orderStatus;
+        orderStatus = true;
+        this.table = table;
     }
 
     public boolean isOrderStatus() {

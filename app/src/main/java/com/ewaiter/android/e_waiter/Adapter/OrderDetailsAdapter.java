@@ -43,6 +43,7 @@ public class OrderDetailsAdapter extends ArrayAdapter<OrderItem> {
         TextView itemQuantityTextView = (TextView) convertView.findViewById(R.id.item_quantity);
         final ImageView hiddenTick = convertView.findViewById(R.id.hiddenTick);
         LinearLayout individualItem = convertView.findViewById(R.id.individual_list_view_details);
+        final LinearLayout orderListItemView = convertView.findViewById(R.id.order_list_item_view);
 
         individualItem.setOnClickListener(new View.OnClickListener() {
             @Override

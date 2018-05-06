@@ -8,23 +8,24 @@ import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.support.design.widget.FloatingActionButton;
+import android.nfc.Tag;
+import android.provider.Settings;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.ewaiter.android.e_waiter.Models.FirebaseCursorPojo;
+import com.ewaiter.android.e_waiter.Models.OrderSummary;
 import com.ewaiter.android.e_waiter.data.MenuItemsContract;
-import com.ewaiter.android.e_waiter.data.MenuItemsDbHelper;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -32,7 +33,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 
 public class Cart extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
-
 
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mOrderDatabaseReference;
@@ -46,12 +46,16 @@ public class Cart extends AppCompatActivity implements LoaderManager.LoaderCallb
 
     String TABLE_NUMBER;
 
+    private ProgressBar mProgressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         Bundle b = getIntent().getExtras();
         TABLE_NUMBER = b.getString("tableNumber");
+
+        mProgressBar = findViewById(R.id.progressBar);
 
         if(getItems().getCount() == 0) {
             setContentView(R.layout.empty_view);
@@ -85,7 +89,7 @@ public class Cart extends AppCompatActivity implements LoaderManager.LoaderCallb
                 String category = cursor.getString(cursor.getColumnIndex(MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_CATEGORY));
                 int quantity = cursor.getInt(cursor.getColumnIndex(MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_QUANTITY));
                 int unitPrice = cursor.getInt(cursor.getColumnIndex(MenuItemsContract.MenuItemsEntry.COLUMN_ITEM_PRICE));
-                cursorPojoList.add(new FirebaseCursorPojo(name,category,unitPrice,quantity));
+                cursorPojoList.add(new FirebaseCursorPojo(name,category,unitPrice,quantity,TABLE_NUMBER));
             }
 
         }
@@ -135,6 +139,7 @@ public class Cart extends AppCompatActivity implements LoaderManager.LoaderCallb
         switch (item.getItemId()) {
             // Respond to a click on the "Save" menu option
             case R.id.action_proceed:
+//                mProgressBar.setVisibility(View.VISIBLE);
                 orderSaveToSharedPreferance();
                 // Save cart list to database
                 mItemDatabaseReference = mFirebaseDatabase.getReference().child("orders").push();
@@ -143,6 +148,7 @@ public class Cart extends AppCompatActivity implements LoaderManager.LoaderCallb
                     mItemDatabaseReference.push().setValue(tempItem);
                 }
                 Toast.makeText(this,"Order details sent to Chef",Toast.LENGTH_SHORT).show();
+//                mProgressBar.setVisibility(View.INVISIBLE);
                 resetQuantity();
               //  Intent br1 = new Intent("finish TableSelectActivity");
               //  sendBroadcast(br1);
@@ -199,6 +205,4 @@ public class Cart extends AppCompatActivity implements LoaderManager.LoaderCallb
         }
         return orderString;
     }
-
-
 }

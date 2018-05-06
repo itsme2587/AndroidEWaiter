@@ -41,7 +41,7 @@ public class OrderAdapter extends ArrayAdapter<Order> {
             orderStatus = "Closed";
 
         orderStatusTextView.setText(orderStatus);
-        orderIdTextView.setText(order.getOrderKey());
+        orderIdTextView.setText(order.getTable());
 
         orderListItemView.setOnClickListener(new View.OnClickListener() {
             @Override

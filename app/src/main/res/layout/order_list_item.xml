@@ -15,7 +15,7 @@
         android:paddingLeft="16dp">
 
         <TextView
-            android:text="Order Id: "
+            android:text="Table : "
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/colorAccentSecondary"
@@ -27,8 +27,8 @@
             android:id="@+id/order_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:textAppearanceSmall"
-            android:textSize="16sp" />
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textSize="20sp" />
 
     </LinearLayout>
     <LinearLayout

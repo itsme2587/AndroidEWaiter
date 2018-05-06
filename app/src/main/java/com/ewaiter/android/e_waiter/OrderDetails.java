@@ -12,6 +12,7 @@ import android.widget.ListView;
 
 import com.ewaiter.android.e_waiter.Adapter.OrderAdapter;
 import com.ewaiter.android.e_waiter.Adapter.OrderDetailsAdapter;
+import com.ewaiter.android.e_waiter.Models.Notifications;
 import com.ewaiter.android.e_waiter.Models.Order;
 import com.ewaiter.android.e_waiter.Models.OrderItem;
 import com.ewaiter.android.e_waiter.Models.OrderItemHolder;
@@ -22,7 +23,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class OrderDetails extends AppCompatActivity {
 
@@ -34,6 +37,7 @@ public class OrderDetails extends AppCompatActivity {
 
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mOrderDatabaseReference;
+//    private DatabaseReference mNotificationDatabaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +50,7 @@ public class OrderDetails extends AppCompatActivity {
 
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mOrderDatabaseReference = mFirebaseDatabase.getReference().child("orders");
+//        mNotificationDatabaseReference = mFirebaseDatabase.getReference().child("notifications");
 
         listOfOrders = ChefActivity.listOfOrders;
 
@@ -76,6 +81,8 @@ public class OrderDetails extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
             }
         });
+//        Notifications notification = new Notifications();
+//        mNotificationDatabaseReference.child("table"+"1").push().setValue(notification);
 
         Intent br = new Intent("finish ChefActivity");
         sendBroadcast(br);

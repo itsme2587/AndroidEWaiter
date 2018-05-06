@@ -4,31 +4,23 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.nfc.Tag;
 import android.os.Handler;
-import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.ewaiter.android.e_waiter.Adapter.OrderAdapter;
+import com.ewaiter.android.e_waiter.Models.FirebaseCursorPojo;
 import com.ewaiter.android.e_waiter.Models.Order;
 import com.ewaiter.android.e_waiter.Models.OrderItem;
 import com.ewaiter.android.e_waiter.Models.OrderItemHolder;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,10 +87,12 @@ public class ChefActivity extends AppCompatActivity {
                     listOfOrders = new ArrayList<>();
                     for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                         boolean status = false;
+                        String table = "";
                         Iterable<DataSnapshot> items = postSnapshot.getChildren();
                         List<OrderItem> orderItems = new ArrayList<>();
                         for (DataSnapshot order: items) {
                             FirebaseCursorPojo o = order.getValue(FirebaseCursorPojo.class);
+                            table = o.getTable();
                             status = o.isOrderStatus();
                             if(status) {
                                 OrderItem orderItem = new OrderItem(o.getItemName(),o.getQuantity()+"");
@@ -111,7 +105,7 @@ public class ChefActivity extends AppCompatActivity {
                         }
                         if(status) {
                             listOfOrders.add(new OrderItemHolder(orderItems));
-                            mOrderAdapter.add(new Order(status,postSnapshot.getKey()));
+                            mOrderAdapter.add(new Order(status,postSnapshot.getKey(),table));
                         }
                     }
 
